@@ -1,6 +1,6 @@
 Since people in the discord loved the other mod I made, I decided to make a better version.
 
-[Discord Screenshot](https://i.imgur.com/RDzDmEp.png)
+![Discord Screenshot](https://i.imgur.com/RDzDmEp.png)
 
 ___
 This mod allows you to set the tier of any non-equipment item in the game. Want Chronobauble to be a white? Go ahead! Want to make every run a broken run? Set 57 Leaf to tier 1, and have a blast! Think Red Whip shouldn't exist (don't see why, it's the best item in the game Kappa)? Have at it!
