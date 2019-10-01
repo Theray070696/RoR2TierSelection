@@ -13,11 +13,10 @@ The names in the config are probably not familiar, that's because the translatio
 
 
 ___
-Known issues:
--This mod breaks if ItemLib is installed. I'm looking into why and how to fix it.
-
-___
 Changelog:
+
+1.1.1:
+-Fixed incompatibility with ItemLib.
 
 1.1.0:
 -Added support for equipment! All implemented equipment (minus elite equipment) can be disabled, swapped to normal, or swapped to lunar!

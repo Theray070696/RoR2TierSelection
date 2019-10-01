@@ -5,11 +5,12 @@ using RoR2;
 namespace Theray070696
 {
     [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "1.0.0")]
+    [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
     {
         public void Awake()
         {
-            for(int i = (int)ItemIndex.Syringe; i < (int)ItemIndex.Count; i++)
+            for(int i = (int) ItemIndex.Syringe; i < (int) ItemIndex.Count; i++)
             {
                 ItemDef item = ItemCatalog.GetItemDef((ItemIndex) i);
 
@@ -60,7 +61,8 @@ namespace Theray070696
                     }
                 }
 
-                ConfigWrapper<int> c = Config.Wrap("Item Tiers", item.nameToken + " tier", "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
+                ConfigWrapper<int> c = Config.Wrap("Item Tiers", item.nameToken + " tier",
+                    "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
 
                 int newTierNum = c.Value;
 
@@ -68,7 +70,7 @@ namespace Theray070696
                 {
                     continue;
                 }
-                
+
                 switch(newTierNum)
                 {
                     case 1:
@@ -76,19 +78,19 @@ namespace Theray070696
                         item.tier = ItemTier.Tier1;
                         break;
                     }
-                    
+
                     case 2:
                     {
                         item.tier = ItemTier.Tier2;
                         break;
                     }
-                    
+
                     case 3:
                     {
                         item.tier = ItemTier.Tier3;
                         break;
                     }
-                    
+
                     case 4:
                     {
                         item.tier = ItemTier.Lunar;
@@ -101,13 +103,13 @@ namespace Theray070696
                         {
                             break;
                         }
-                        
+
                         item.tier = ItemTier.NoTier;
                         break;
                     }
                 }
             }
-            
+
             Logger.LogInfo("Item config loaded!");
 
             for(int i = (int) EquipmentIndex.CommandMissile; i < (int) EquipmentIndex.Count; i++)
@@ -120,8 +122,9 @@ namespace Theray070696
                 }
 
                 int defTier = equipment.isLunar ? 2 : 1;
-                
-                ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", equipment.nameToken + " tier", "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar", defTier);
+
+                ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", equipment.nameToken + " tier",
+                    "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar", defTier);
 
                 int newTier = c.Value;
 
@@ -154,7 +157,7 @@ namespace Theray070696
                     }
                 }
             }
-            
+
             Logger.LogInfo("Equipment config loaded!");
         }
     }
