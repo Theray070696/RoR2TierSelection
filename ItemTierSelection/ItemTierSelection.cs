@@ -4,7 +4,7 @@ using RoR2;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "1.0.0")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "1.1.2")]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
     {

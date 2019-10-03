@@ -15,6 +15,10 @@ The names in the config are probably not familiar, that's because the translatio
 ___
 Changelog:
 
+1.1.2
+-Fixed dll version being incorrect
+-Removed ItemLib incompatibility text from this very file
+
 1.1.1:
 -Fixed incompatibility with ItemLib.
 
