@@ -8,7 +8,7 @@ using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.0")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.1")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
@@ -140,16 +140,11 @@ namespace Theray070696
             }
 
             int defTier = equipmentDef.isLunar ? 2 : 1;
-            
-            string equipmentName = equipmentDef.name;
-            
-            if(equipmentName == null)
-                equipmentName = equipmentIndex.ToString();
 
-            string upper = equipmentName.ToUpper(CultureInfo.InvariantCulture);
-            equipmentName = string.Format((IFormatProvider) CultureInfo.InvariantCulture, "EQUIPMENT_{0}_NAME", (object) upper);
+            string upper = equipmentIndex.ToString().ToUpper(CultureInfo.InvariantCulture);
+            string equipmentName = string.Format((IFormatProvider) CultureInfo.InvariantCulture, "EQUIPMENT_{0}_NAME", (object) upper);
 
-            ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", equipmentDef.nameToken + " tier",
+            ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", equipmentName + " tier",
                 "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar", defTier);
 
             int newTier = c.Value;

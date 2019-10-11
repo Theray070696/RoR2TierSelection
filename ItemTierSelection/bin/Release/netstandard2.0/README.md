@@ -17,6 +17,9 @@ Want to support me modding? Support me on Patreon! https://www.patreon.com/Thera
 ___
 Changelog:
 
+2.0.1
+-Fixed equipment being broken.
+
 2.0.0
 -Updated for latest RoR2 build (October 10th 2019)
 
