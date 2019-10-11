@@ -12,15 +12,20 @@ There is one thing that I'll mention here that isn't mentioned in the config. Yo
 The names in the config are probably not familiar, that's because the translation system in RoR2 isn't available when I'm writing the config, so I'm forced to use the internal names. [Here's a handy list of the internal names and their respective names](https://github.com/risk-of-thunder/R2Wiki/wiki/Item-&-Equipment-IDs-and-Names)
 
 
+Want to support me modding? Support me on Patreon! https://www.patreon.com/Theray070696
+
 ___
 Changelog:
+
+2.0.0
+-Updated for latest RoR2 build (October 10th 2019)
 
 1.1.2
 -Fixed dll version being incorrect
 -Removed ItemLib incompatibility text from this very file
 
 1.1.1:
--Fixed incompatibility with ItemLib.
+-Fixed incompatibility with ItemLib
 
 1.1.0:
 -Added support for equipment! All implemented equipment (minus elite equipment) can be disabled, swapped to normal, or swapped to lunar!
