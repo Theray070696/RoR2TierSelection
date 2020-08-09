@@ -2,19 +2,29 @@
 using System.Globalization;
 using BepInEx;
 using BepInEx.Configuration;
+using R2API;
+using R2API.Utils;
 using RoR2;
+using UnityEngine;
 using ItemCatalog = On.RoR2.ItemCatalog;
 using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.1")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.2")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
+    [R2APISubmoduleDependency("ResourcesAPI")]
     public class ItemTierSelection : BaseUnityPlugin
     {
+        private UnbundledResourcesProvider _assetBundleProvider;
+        private const string ModPrefix = "@Theray070696.itemtierselection.textures";
+        
         public void Awake()
         {
+            _assetBundleProvider = new UnbundledResourcesProvider(ModPrefix);
+            ResourcesAPI.AddProvider(_assetBundleProvider);
+            
             ItemCatalog.RegisterItem += OnRegisterItem;
             EquipmentCatalog.RegisterEquipment += OnRegisterEquipment;
         }
@@ -86,6 +96,17 @@ namespace Theray070696
             {
                 orig.Invoke(itemIndex, itemDef);
                 return;
+            }
+
+            var newTier = newTierNum > 0 ? (ItemTier)(newTierNum - 1) : ItemTier.NoTier;
+            if (newTier != ItemTier.NoTier)
+            {
+                var newTexture = ColorTransformer.GenerateTexture(itemDef, newTier);
+                var path = _assetBundleProvider.Store(itemDef.pickupIconPath, newTexture);
+                _assetBundleProvider.Store(itemDef.pickupIconPath,
+                    Sprite.Create((Texture2D) newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero));
+
+                itemDef.pickupIconPath = path;
             }
 
             switch(newTierNum)
