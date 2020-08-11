@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Theray070696
 {
-    public class ColorTransformer
+    public static class ColorTransformer
     {
         private const int MaskAlphaThreshold = 100;
         
@@ -44,7 +44,7 @@ namespace Theray070696
         {
             // Load texture.
             var img = Resources.Load<Texture2D>(itemDef.pickupIconPath);
-            var imgPixels = GetPixelsFromNonReadableTexture(img);
+            var imgPixels = MakeTextureReadable(img).GetPixels32();
             
             // Create a binary mask based on the alpha channel. This gives clear boundaries between the tier outline and the
             // item.
@@ -219,11 +219,11 @@ namespace Theray070696
         }
         
         /// <summary>
-        /// Reads the texture even if the texture is marked unreadable.
+        /// Clones unreadable texture into one that is readable.
         /// </summary>
         /// <param name="img"></param>
         /// <returns></returns>
-        private static Color32[] GetPixelsFromNonReadableTexture(Texture img)
+        public static Texture2D MakeTextureReadable(Texture img)
         {
             var rt = RenderTexture.GetTemporary(img.width, img.height);
             Graphics.Blit(img, rt);
@@ -234,7 +234,7 @@ namespace Theray070696
             img2.Apply();
             RenderTexture.active = previousRt;
             RenderTexture.ReleaseTemporary(rt);
-            return img2.GetPixels32();
+            return img2;
         }
     }
     

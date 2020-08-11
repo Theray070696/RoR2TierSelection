@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using R2API;
@@ -14,19 +17,58 @@ namespace Theray070696
     [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.2")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
-    [R2APISubmoduleDependency("ResourcesAPI")]
+    [R2APISubmoduleDependency(nameof(ResourcesAPI))]
     public class ItemTierSelection : BaseUnityPlugin
     {
         private UnbundledResourcesProvider _assetBundleProvider;
+        private ConfigWrapper<bool> _shouldDump;
+        private Dictionary<ItemTier, List<Texture>> _texturesToDump;
         private const string ModPrefix = "@Theray070696.itemtierselection.textures";
+        private const string DumpedTexturesPath = "dumped_textures";
         
         public void Awake()
         {
             _assetBundleProvider = new UnbundledResourcesProvider(ModPrefix);
             ResourcesAPI.AddProvider(_assetBundleProvider);
+
+            _shouldDump = Config.Wrap("Other", "Dump Textures",
+                $@"Dump textures to the folder ""{DumpedTexturesPath}"".", false);
+            if (_shouldDump.Value)
+            {
+                if (!Directory.Exists(DumpedTexturesPath))
+                {
+                    Directory.CreateDirectory(DumpedTexturesPath);
+                }
+
+                _texturesToDump = new Dictionary<ItemTier, List<Texture>>();
+                
+                ItemCatalog.Init += OnRegisterComplete;
+            }
             
             ItemCatalog.RegisterItem += OnRegisterItem;
             EquipmentCatalog.RegisterEquipment += OnRegisterEquipment;
+        }
+
+        private void OnRegisterComplete(ItemCatalog.orig_Init orig)
+        {
+            orig();
+            foreach (var (tier, textureList) in _texturesToDump.Select(kv => (kv.Key, kv.Value)))
+            {
+                var atlas = new Texture2D(0, 0);
+                // Clone textures to a readable texture.
+                var textures = textureList.Select(ColorTransformer.MakeTextureReadable).ToArray();
+                
+                atlas.PackTextures(textures, 0);
+                
+                File.WriteAllBytes(System.IO.Path.Combine(DumpedTexturesPath, $"{tier:G}.png"),
+                    ImageConversion.EncodeToPNG(atlas));
+                
+                // Cleanup the newly generated textures.
+                foreach (var texture in textures)
+                {
+                    Destroy(texture);
+                }
+            }
         }
         
         private void OnRegisterItem(ItemCatalog.orig_RegisterItem orig, ItemIndex itemIndex, ItemDef itemDef)
@@ -91,14 +133,24 @@ namespace Theray070696
                 "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
 
             int newTierNum = c.Value;
+            var newTier = newTierNum > 0 ? (ItemTier)(newTierNum - 1) : ItemTier.NoTier;
 
             if(newTierNum == defTier)
             {
                 orig.Invoke(itemIndex, itemDef);
+                
+                if (_shouldDump.Value)
+                {
+                    if (!_texturesToDump.TryGetValue(newTier, out var textureList))
+                    {
+                        textureList = _texturesToDump[newTier] = new List<Texture>();
+                    }
+                    textureList.Add(Resources.Load<Texture>(itemDef.pickupIconPath));
+                }
+                
                 return;
             }
 
-            var newTier = newTierNum > 0 ? (ItemTier)(newTierNum - 1) : ItemTier.NoTier;
             if (newTier != ItemTier.NoTier)
             {
                 var newTexture = ColorTransformer.GenerateTexture(itemDef, newTier);
@@ -107,6 +159,15 @@ namespace Theray070696
                     Sprite.Create((Texture2D) newTexture, new Rect(0, 0, newTexture.width, newTexture.height), Vector2.zero));
 
                 itemDef.pickupIconPath = path;
+            }
+            
+            if (_shouldDump.Value)
+            {
+                if (!_texturesToDump.TryGetValue(newTier, out var textureList))
+                {
+                    textureList = _texturesToDump[newTier] = new List<Texture>();
+                }
+                textureList.Add(Resources.Load<Texture>(itemDef.pickupIconPath));
             }
 
             switch(newTierNum)
