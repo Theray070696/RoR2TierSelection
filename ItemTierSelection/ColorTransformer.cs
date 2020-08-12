@@ -40,7 +40,7 @@ namespace Theray070696
         /// <param name="itemDef"></param>
         /// <param name="newTier"></param>
         /// <returns></returns>
-        public static Texture GenerateTexture(ItemDef itemDef, ItemTier newTier)
+        public static Texture GenerateTexture(ItemDef itemDef, ItemTier newTier, bool makeReadable = false)
         {
             // Load texture.
             var img = Resources.Load<Texture2D>(itemDef.pickupIconPath);
@@ -68,7 +68,7 @@ namespace Theray070696
             // Load changed pixels into a texture for returning.
             var tex = new Texture2D(img.width, img.height, TextureFormat.RGBA32, false);
             tex.SetPixels32(imgPixels);
-            tex.Apply(true, true); // Make no longer readable to save memory.
+            tex.Apply(true, !makeReadable); // Make no longer readable to save memory.
             return tex;
         }
         
