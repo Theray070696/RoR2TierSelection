@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
+using System.Linq;
 using BepInEx;
 using BepInEx.Configuration;
 using R2API;
@@ -14,19 +17,57 @@ namespace Theray070696
     [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.2")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
-    [R2APISubmoduleDependency("ResourcesAPI")]
+    [R2APISubmoduleDependency(nameof(ResourcesAPI))]
     public class ItemTierSelection : BaseUnityPlugin
     {
         private UnbundledResourcesProvider _assetBundleProvider;
+        private ConfigWrapper<bool> _shouldDump;
+        private Dictionary<ItemTier, List<Texture>> _texturesToDump;
         private const string ModPrefix = "@Theray070696.itemtierselection.textures";
+        private const string DumpedTexturesPath = "dumped_textures";
         
         public void Awake()
         {
             _assetBundleProvider = new UnbundledResourcesProvider(ModPrefix);
             ResourcesAPI.AddProvider(_assetBundleProvider);
+
+            _shouldDump = Config.Wrap("Other", "Dump Textures",
+                $@"Dump textures to the folder ""{DumpedTexturesPath}"".", false);
+            if (_shouldDump.Value)
+            {
+                if (!Directory.Exists(DumpedTexturesPath))
+                {
+                    Directory.CreateDirectory(DumpedTexturesPath);
+                }
+
+                _texturesToDump = new Dictionary<ItemTier, List<Texture>>();
+                
+                ItemCatalog.Init += OnRegisterComplete;
+            }
             
             ItemCatalog.RegisterItem += OnRegisterItem;
             EquipmentCatalog.RegisterEquipment += OnRegisterEquipment;
+        }
+
+        private void OnRegisterComplete(ItemCatalog.orig_Init orig)
+        {
+            orig();
+            foreach (var (tier, textureList) in _texturesToDump.Select(kv => (kv.Key, kv.Value)))
+            {
+                var atlas = new Texture2D(0, 0);
+                var textures = textureList.Cast<Texture2D>().ToArray();
+                
+                atlas.PackTextures(textures, 0);
+                
+                File.WriteAllBytes(System.IO.Path.Combine(DumpedTexturesPath, $"{tier:G}.png"),
+                    ImageConversion.EncodeToPNG(atlas));
+                
+                // Cleanup the newly generated textures as they are only used for the dumps.
+                foreach (var texture in textures)
+                {
+                    Destroy(texture);
+                }
+            }
         }
         
         private void OnRegisterItem(ItemCatalog.orig_RegisterItem orig, ItemIndex itemIndex, ItemDef itemDef)
@@ -78,9 +119,19 @@ namespace Theray070696
                     break;
                 }
             }
-
-            string itemName = itemDef.name;
             
+            if (_shouldDump.Value)
+            {
+                var dumpTier = (ItemTier) (defTier % 5);
+                var readableNewTexture = ColorTransformer.GenerateTexture(itemDef, dumpTier, true);
+                if (!_texturesToDump.TryGetValue(dumpTier, out var textureList))
+                {
+                    textureList = _texturesToDump[dumpTier] = new List<Texture>();
+                }
+                textureList.Add(readableNewTexture);
+            }
+            
+            string itemName = itemDef.name;
             if(itemName == null)
                 itemName = itemIndex.ToString();
 
@@ -91,7 +142,6 @@ namespace Theray070696
                 "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
 
             int newTierNum = c.Value;
-
             if(newTierNum == defTier)
             {
                 orig.Invoke(itemIndex, itemDef);
