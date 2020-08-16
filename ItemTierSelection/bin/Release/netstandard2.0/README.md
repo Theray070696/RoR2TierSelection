@@ -17,6 +17,13 @@ Want to support my modding? Support me on Patreon! https://www.patreon.com/Thera
 ___
 Changelog:
 
+2.1.1
+-Updated changelog
+
+2.1.0
+-Items will not have their icon outline dynamically adjusted at runtime. (Thanks kylewill0725 on GitHub for the pull request!)
+-Verified to work on Risk of Rain 2 1.0
+
 2.0.2
 -Updated README
 
