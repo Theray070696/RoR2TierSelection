@@ -14,7 +14,7 @@ using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.0.2")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.0")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     [R2APISubmoduleDependency(nameof(ResourcesAPI))]
