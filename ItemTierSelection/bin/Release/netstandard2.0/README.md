@@ -17,6 +17,13 @@ Want to support my modding? Support me on Patreon! https://www.patreon.com/Thera
 ___
 Changelog:
 
+2.1.3
+-Forgot changelog. Oops. Sorry Discord!
+
+2.1.2
+-Updated for Risk of Rain 2 Anniversary Update patch
+-Removed color change on border of items, need original coder to reimplement
+
 2.1.1
 -Updated changelog
 
