@@ -3,16 +3,29 @@ using System.Globalization;
 using BepInEx;
 using BepInEx.Configuration;
 using RoR2;
+using UnityEngine;
 using ItemCatalog = On.RoR2.ItemCatalog;
 using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.2")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.3")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
     {
+        private static readonly string[] _invalidConfigChars = new string[8]
+        {
+            "=",
+            "\n",
+            "\t",
+            "\\",
+            "\"",
+            "'",
+            "[",
+            "]"
+        };
+        
         private const string ModPrefix = "@Theray070696.itemtierselection.textures";
         
         public void Awake()
@@ -28,6 +41,12 @@ namespace Theray070696
 
             foreach(ItemDef itemDef in itemDefs)
             {
+                if(itemDef == null)
+                {
+                    i++;
+                    continue;
+                }
+                
                 ItemTier currTier = itemDef.tier;
                 int defTier;
 
@@ -74,8 +93,11 @@ namespace Theray070696
                 if(itemName == null)
                     itemName = itemDef.itemIndex.ToString();
 
-                string upper = itemName.ToUpper(CultureInfo.InvariantCulture);
-                itemName = string.Format((IFormatProvider) CultureInfo.InvariantCulture, "ITEM_{0}_NAME", (object) upper);
+                itemName = itemName.ToUpper(CultureInfo.InvariantCulture);
+                foreach(string ch in _invalidConfigChars)
+                {
+                    itemName = itemName.Replace(ch, string.Empty);
+                }
 
                 ConfigWrapper<int> c = Config.Wrap("Item Tiers", itemName + " tier",
                     "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
@@ -149,12 +171,15 @@ namespace Theray070696
             string equipmentNameToken = equipmentDef.nameToken;
             if(equipmentNameToken == null)
                 equipmentNameToken = equipmentIndex.ToString();
-            
-            
-            string upper = equipmentNameToken.ToUpper(CultureInfo.InvariantCulture);
-            string equipmentName = string.Format((IFormatProvider) CultureInfo.InvariantCulture, "EQUIPMENT_{0}_NAME", (object) upper);
 
-            ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", equipmentName + " tier",
+            string upper = equipmentNameToken.ToUpper(CultureInfo.InvariantCulture);
+
+            foreach(string ch in _invalidConfigChars)
+            {
+                upper = upper.Replace(ch, string.Empty);
+            }
+
+            ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", upper + " tier",
                 "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar", defTier);
 
             int newTier = c.Value;
@@ -189,7 +214,7 @@ namespace Theray070696
                 }
             }
             
-            Logger.LogInfo("Changing tier of " + equipmentName + ".");
+            Logger.LogInfo("Changing tier of " + upper + ".");
             
             orig.Invoke(equipmentIndex, equipmentDef);
         }

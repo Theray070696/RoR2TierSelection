@@ -3,7 +3,9 @@
   &lt;Assembly Path="E:\Steam Games\Risk of Rain 2\BepInEx\plugins\R2API\R2API.dll" /&gt;&#xD;
   &lt;Assembly Path="E:\Steam Games\Risk of Rain 2\Risk of Rain 2_Data\Managed\Assembly-CSharp.dll" /&gt;&#xD;
   &lt;Assembly Path="E:\Steam Games\Risk of Rain 2\BepInEx\monomod\Assembly-CSharp.R2API.mm.dll" /&gt;&#xD;
+  &lt;Assembly Path="D:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Assembly-CSharp.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
+	
 	
 	
 	</wpf:ResourceDictionary>
