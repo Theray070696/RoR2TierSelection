@@ -9,7 +9,7 @@ using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.3")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.4")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin

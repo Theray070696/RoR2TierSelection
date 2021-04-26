@@ -17,6 +17,9 @@ Want to support my modding? Support me on Patreon! https://www.patreon.com/Thera
 ___
 Changelog:
 
+2.1.4
+-Fixed incompatibility with mods that have bad characters in their item name token.
+
 2.1.3
 -Forgot changelog. Oops. Sorry Discord!
 
