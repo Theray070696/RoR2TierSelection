@@ -17,6 +17,11 @@ Want to support my modding? Support me on Patreon! https://www.patreon.com/Thera
 ___
 Changelog:
 
+3.0.0
+-Updated for Survivors of the Void (Thanks Muugiboy on Discord for fixing the config loader! Update wouldn't have happened this fast without them!)
+-Added ability to set items to void tiers, see config for details on what value is what
+-Enabled setting item tier to the boss item tier
+
 2.1.4
 -Fixed incompatibility with mods that have bad characters in their item name token.
 

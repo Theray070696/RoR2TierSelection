@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Globalization;
+
+using RoR2;
 using BepInEx;
 using BepInEx.Configuration;
-using RoR2;
 using UnityEngine;
 using ItemCatalog = On.RoR2.ItemCatalog;
 using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "2.1.4")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "3.0.0")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
@@ -82,6 +83,30 @@ namespace Theray070696
                         break;
                     }
 
+                    case ItemTier.VoidTier1:
+                    {
+                        defTier = 6;
+                        break;
+                    }
+
+                    case ItemTier.VoidTier2:
+                    {
+                        defTier = 7;
+                        break;
+                    }
+
+                    case ItemTier.VoidTier3:
+                    {
+                        defTier = 8;
+                        break;
+                    }
+
+                    case ItemTier.VoidBoss:
+                    {
+                        defTier = 9;
+                        break;
+                    }
+
                     default:
                     {
                         defTier = 0;
@@ -99,8 +124,15 @@ namespace Theray070696
                     itemName = itemName.Replace(ch, string.Empty);
                 }
 
-                ConfigWrapper<int> c = Config.Wrap("Item Tiers", itemName + " tier",
-                    "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar", defTier);
+                if(itemName.IsNullOrWhiteSpace())
+                {
+                    newItemDefs[i] = itemDef;
+                    i++;
+                    continue;
+                }
+
+                ConfigEntry<int> c = Config.Bind<int>("Item Tiers", itemName + " tier", defTier,
+                    "Tier of this item. 0 is no tier, 1 is white, 2 is green, 3 is red, 4 is lunar, 5 is boss, 6 is tier 1 void, 7 is tier 2 void, 8 is tier 3 void, 9 is void boss");
 
                 int newTierNum = c.Value;
                 if(newTierNum == defTier)
@@ -136,13 +168,38 @@ namespace Theray070696
                         break;
                     }
 
+                    case 5:
+                    {
+                        itemDef.tier = ItemTier.Boss;
+                        break;
+                    }
+
+                    case 6:
+                    {
+                        itemDef.tier = ItemTier.VoidTier1;
+                        break;
+                    }
+
+                    case 7:
+                    {
+                        itemDef.tier = ItemTier.VoidTier2;
+                        break;
+                    }
+
+                    case 8:
+                    {
+                        itemDef.tier = ItemTier.VoidTier3;
+                        break;
+                    }
+
+                    case 9:
+                    {
+                        itemDef.tier = ItemTier.VoidBoss;
+                        break;
+                    }
+
                     default:
                     {
-                        if(newTierNum == 5 && currTier == ItemTier.Boss)
-                        {
-                            break;
-                        }
-
                         itemDef.tier = ItemTier.NoTier;
                         break;
                     }
@@ -179,8 +236,8 @@ namespace Theray070696
                 upper = upper.Replace(ch, string.Empty);
             }
 
-            ConfigWrapper<int> c = Config.Wrap("Equipment Tiers", upper + " tier",
-                "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar", defTier);
+            ConfigEntry<int> c = Config.Bind<int>("Equipment Tiers", upper + " tier", defTier,
+                "Tier of this equipment. 0 is no tier, 1 is standard, 2 is lunar");
 
             int newTier = c.Value;
 
