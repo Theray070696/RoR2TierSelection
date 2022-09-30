@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "xh9oRyvXiLImFvtMqRPXU6My6W6OZY4r3kZFbN1vxhxWJmD4+f2yMswE9sG1OiKGHIl83B9ifVwByx1msm4aFg==",
+  "success": true,
+  "projectFilePath": "E:\\Modding\\RoR2TierSelection\\ItemTierSelection\\ItemTierSelection.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\thera\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\thera\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

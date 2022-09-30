@@ -11,20 +11,26 @@
     <Reference Include="BepInEx, Version=5.4.19.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Survivors of the Modpack 1\BepInEx\core\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="BepInEx, Version=5.4.21.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\cache\bbepis-BepInExPack\5.4.2102\BepInExPack\BepInEx\core\BepInEx.dll</HintPath>
+    </Reference>
     <Reference Include="BepInEx.Harmony, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Survivors of the Modpack 1\BepInEx\core\BepInEx.Harmony.dll</HintPath>
+      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\cache\bbepis-BepInExPack\5.4.2102\BepInExPack\BepInEx\core\BepInEx.Harmony.dll</HintPath>
     </Reference>
     <Reference Include="MMHOOK_Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Survivors of the Modpack 1\BepInEx\plugins\RiskofThunder-HookGenPatcher\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
+      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\cache\RiskofThunder-HookGenPatcher\1.2.3\BepInEx\plugins\MMHOOK\MMHOOK_Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="R2API, Version=2.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Survivors of the Modpack 1\BepInEx\plugins\tristanmcpherson-R2API\R2API\R2API.dll</HintPath>
+    </Reference>
+    <Reference Include="R2API, Version=4.4.1.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\cache\tristanmcpherson-R2API\4.4.1\plugins\R2API\R2API.dll</HintPath>
     </Reference>
     <Reference Include="RoR2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
       <HintPath>C:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\RoR2.dll</HintPath>
     </Reference>
     <Reference Include="RoR2BepInExPack, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\Survivors of the Modpack 1\BepInEx\plugins\RoR2BepInExPack\RoR2BepInExPack.dll</HintPath>
+      <HintPath>C:\Users\thera\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\cache\bbepis-BepInExPack\5.4.2102\BepInExPack\BepInEx\plugins\RoR2BepInExPack\RoR2BepInExPack.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>D:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\UnityEngine.dll</HintPath>

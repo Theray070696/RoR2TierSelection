@@ -1,16 +1,14 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 using RoR2;
 using BepInEx;
 using BepInEx.Configuration;
-using UnityEngine;
 using ItemCatalog = On.RoR2.ItemCatalog;
 using EquipmentCatalog = On.RoR2.EquipmentCatalog;
 
 namespace Theray070696
 {
-    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "3.0.0")]
+    [BepInPlugin("io.github.Theray070696.itemtierselection", "Item Tier Selection", "3.0.1")]
     [BepInDependency("com.bepis.r2api", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("dev.iDeathHD.ItemLib", BepInDependency.DependencyFlags.SoftDependency)]
     public class ItemTierSelection : BaseUnityPlugin
